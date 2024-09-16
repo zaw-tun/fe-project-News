@@ -1,9 +1,38 @@
+import * as React from "react";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Button from "@mui/joy/Button";
+import Card from "@mui/joy/Card";
+import CardContent from "@mui/joy/CardContent";
+import Typography from "@mui/joy/Typography";
+import { Link } from "react-router-dom"
+
 export const ArticleCard = ({ article }) => {
   return (
     <>
-      <ul>
-        <li>{article.title}</li>
-      </ul>
+      <Card sx={{ width: 320 }}>
+        <div>
+          <Typography level="title-lg">{article.title}</Typography>
+          <Typography level="body-sm">{article.topic}</Typography>
+        </div>
+        <AspectRatio minHeight="120px" maxHeight="200px">
+          <img src={article.article_img_url} loading="lazy" alt="" />
+        </AspectRatio>
+        <CardContent orientation="horizontal">
+          <div>
+            <Typography level="body-xs">{article.body}</Typography>
+          </div>
+          <Button
+            variant="solid"
+            size="md"
+            color="success"
+            sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+          >
+            <Link className="menu-item" to="/">
+          Read{" "}
+        </Link>
+          </Button>
+        </CardContent>
+      </Card>
     </>
   );
 };
