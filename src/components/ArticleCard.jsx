@@ -4,7 +4,9 @@ import Button from "@mui/joy/Button";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { ArticleContext } from "../contexts/ArticleContext";
+import { useContext, useState, useEffect } from "react";
 
 export const ArticleCard = ({ article }) => {
   return (
@@ -12,7 +14,11 @@ export const ArticleCard = ({ article }) => {
       <Card sx={{ width: 320 }}>
         <div>
           <Typography level="title-lg">{article.title}</Typography>
-          <Typography level="body-sm">{article.topic}</Typography>
+          <Typography level="body-sm">
+            {/* <Link to={`/articles/${article.topic}`}> */}
+            {article.topic}
+            {/* </Link> */}
+          </Typography>
         </div>
         <AspectRatio minHeight="120px" maxHeight="200px">
           <img src={article.article_img_url} loading="lazy" alt="" />
@@ -27,9 +33,7 @@ export const ArticleCard = ({ article }) => {
             color="success"
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
           >
-            <Link className="menu-item" to="/">
-          Read{" "}
-        </Link>
+            <Link to={`/articles/${article.article_id}`}>Read </Link>
           </Button>
         </CardContent>
       </Card>

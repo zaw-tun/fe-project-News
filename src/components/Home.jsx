@@ -5,7 +5,7 @@ export const Home = () => {
     <>
       <div className="home">
         {" "}
-        <ArticleContainer /> {/* <Articles /> */}
+        <ArticleContainer /> 
       </div>
     </>
   );

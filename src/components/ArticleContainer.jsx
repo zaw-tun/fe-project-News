@@ -1,22 +1,40 @@
 import { useEffect, useState } from "react";
-import { CssVarsProvider } from "@mui/joy/styles";
-import Grid from "@mui/joy/Grid";
-import { ArticleCard } from "./ArticleCard";
-import Box from "@mui/joy/Box";
 import { getArticles } from "../api";
 import { useSearchParams } from "react-router-dom";
 
+import { ArticleCard } from "./ArticleCard";
+
+import { CssVarsProvider } from "@mui/joy/styles";
+import Grid from "@mui/joy/Grid";
+import Box from "@mui/joy/Box";
+
 export const ArticleContainer = () => {
   const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isErr, setIsErr] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const categoryQuery = searchParams.get("category_name");
-  const params = { params: { article_id: articleIdQuery } };
+  const topicQuery = searchParams.get("topic");
+  const params = { params: { topic: topicQuery } };
 
   useEffect(() => {
-    getArticles(params).then(({ articles }) => {
-      setArticles(articles);
-    });
-  }, [articleIdQuery]);
+    setIsLoading(true);
+    getArticles(topicQuery)
+      .then(({ articles }) => {
+        setIsLoading(false);
+        setArticles(articles);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        setIsErr(true);
+      });
+  }, [topicQuery]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+  if (isErr) {
+    return <p> {err} </p>;
+  }
 
   return (
     <CssVarsProvider>
