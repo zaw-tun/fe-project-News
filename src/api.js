@@ -21,3 +21,5 @@ export const getComments = (article_id) => {
     return data;
   });
 };
+
+export const patchComment = (comment_id) => {};

@@ -36,9 +36,9 @@ export const ArticleById = () => {
         <h2> Article Title: {article.title}</h2>
         <h3> Article Topic: {article.topic}</h3>
         <img src={article.article_img_url} />
-        <p> Article Created At: {article.created_at}</p>
-        <h3> Article Author: {article.author}</h3>
-        <p> Article Body: {article.body}</p>
+        <p> Created on: {article.created_at}</p>
+        <h3> By: {article.author}</h3>
+        <p> {article.body}</p>
         <h3> Votes: {article.votes}</h3>
       </div>
       <CommentSection />

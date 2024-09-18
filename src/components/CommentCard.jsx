@@ -12,12 +12,15 @@ export const CommentCard = ({ comment }) => {
         <div>
           <Typography level="title-lg">By {comment.author}</Typography>
         </div>
-        <CardContent orientation="vertical">
-          <div>
-            <Typography level="body-xs">{comment.body}</Typography>
-          </div>
+
+        <div>
+          <Typography level="body-xs">{comment.body}</Typography>
+        </div>
+        <CardContent orientation="horizontal">
+          <p> {comment.votes} likes</p>
+
           <Button
-            variant="outline"
+            variant="outlined"
             size="md"
             color="success"
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
@@ -25,11 +28,11 @@ export const CommentCard = ({ comment }) => {
             👍
             {/* <Link to={`/articles/${article.article_id}`}> ❤️ </Link> */}
           </Button>
-          <p> {comment.votes}</p>
+
           <Button
-            variant="solid"
+            variant="outlined"
             size="md"
-            color="error"
+            color="success"
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
           >
             👎

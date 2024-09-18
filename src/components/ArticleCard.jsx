@@ -25,10 +25,10 @@ export const ArticleCard = ({ article }) => {
         </AspectRatio>
         <CardContent orientation="horizontal">
           <div>
-            <Typography level="body-xs">{article.body}</Typography>
+            <Typography level="body-xs">By {article.author}</Typography>
           </div>
           <Button
-            variant="solid"
+            variant="outlined"
             size="md"
             color="success"
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
