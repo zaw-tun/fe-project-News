@@ -1,23 +1,33 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import * as React from "react";
 import { Link, useParams } from "react-router-dom";
-import { getComments } from "../api";
+import { getComments, postComment } from "../api";
 import { CommentCard } from "./CommentCard";
+import { UserContext } from "../contexts/UserContext";
 
 import { CssVarsProvider } from "@mui/joy/styles";
 import Grid from "@mui/joy/Grid";
 import Box from "@mui/joy/Box";
+import Button from "@mui/joy/Button";
+import CardContent from "@mui/joy/CardContent";
+
+import TextField from "@mui/material/TextField";
 
 export const CommentSection = () => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isErr, setIsErr] = useState(false);
   const { article_id } = useParams();
+  const [usernameInput, setUsernameInput] = useState("");
+  const [commentInput, setCommentInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
   useEffect(() => {
     setIsLoading(true);
     getComments(article_id)
       .then((comments) => {
-        console.log(comments);
         setIsLoading(false);
         setComments(comments);
       })
@@ -26,6 +36,32 @@ export const CommentSection = () => {
         setIsErr(true);
       });
   }, [article_id]);
+
+  const handleNameChange = (event) => setUsernameInput(event.target.value);
+  const handleCommentChange = (event) => setCommentInput(event.target.value);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const newComment = {
+      article_id,
+      username: loggedInUser.username,
+      body: commentInput,
+    };
+    setIsSubmitting(true);
+    setCommentInput("");
+
+    postComment(newComment)
+      .then(() => {
+        const adjustedComment = { votes: 0, ...newComment };
+        setComments([adjustedComment, ...comments]);
+        setIsSubmitting(false);
+        return <p> Comment posted! </p>;
+      })
+      .catch(() => {
+        console.log("error posting item, have you signed in?");
+        setIsSubmitting(false);
+      });
+  };
 
   if (isLoading) {
     return <p> Loading... </p>;
@@ -39,6 +75,45 @@ export const CommentSection = () => {
     <>
       <h1> Comments Section </h1>
       <CssVarsProvider>
+        <form className="commentForm" onSubmit={handleSubmit}>
+          <label htmlFor="comment-box"> Leave a comment </label>
+          {isSubmitting ? (
+            <p> posting comment...</p>
+          ) : (
+            <CardContent orientation="vertical">
+              <label htmlFor="commentText">
+                <textarea
+                  value={commentInput}
+                  placeholder="Your Comment..."
+                  onChange={(event) => {
+                    handleCommentChange(event);
+                  }}
+                  rows="5"
+                  cols="50"
+                  required
+                ></textarea>
+              </label>
+              <p>
+                {" "}
+                {loggedInUser.username
+                  ? `You are posting as ${loggedInUser.name}`
+                  : "Please sign in first. Guests can't post comments at the moment."}
+                {/* You are signed in as {loggedInUser.username || "Guest"}. Guests
+                can't post comments at the moment. */}
+                {}
+              </p>
+              <Button
+                onClick={handleSubmit}
+                variant="outlined"
+                size="md"
+                color="success"
+                sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+              >
+                Submit
+              </Button>
+            </CardContent>
+          )}
+        </form>
         <Box sx={{ padding: 10 }}>
           <Grid container spacing={5}>
             {comments.map((comment, index) => (

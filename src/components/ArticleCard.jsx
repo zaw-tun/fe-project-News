@@ -5,7 +5,6 @@ import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
 import Typography from "@mui/joy/Typography";
 import { Link } from "react-router-dom";
-import { ArticleContext } from "../contexts/ArticleContext";
 import { useContext, useState, useEffect } from "react";
 
 export const ArticleCard = ({ article }) => {
