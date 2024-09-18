@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getArticlesById } from "../api";
+import { getArticlesById, patchArticle } from "../api";
 import { CommentSection } from "./CommentSection";
+import CardContent from "@mui/joy/CardContent";
+import Button from "@mui/joy/Button";
+import Grid from "@mui/joy/Grid";
+import Box from "@mui/joy/Box";
 
 export const ArticleById = () => {
   const [article, setArticle] = useState({});
@@ -22,6 +26,13 @@ export const ArticleById = () => {
       });
   }, [article_id]);
 
+  const handleVote = () => {
+    setArticle((article) => {
+      return { ...article, votes: article.votes + 1 };
+    });
+    patchArticle(article_id);
+  };
+
   if (isLoading) {
     return <p> Loading...</p>;
   }
@@ -36,10 +47,32 @@ export const ArticleById = () => {
         <h2> Article Title: {article.title}</h2>
         <h3> Article Topic: {article.topic}</h3>
         <img src={article.article_img_url} />
-        <p> Created on: {article.created_at}</p>
-        <h3> By: {article.author}</h3>
         <p> {article.body}</p>
-        <h3> Votes: {article.votes}</h3>
+
+        <CardContent orientation="vertical">
+          <div className="article-provided">
+            <h4> By: {article.author + "        "} </h4>
+
+            <p> Posted on: {article.created_at + "      "} </p>
+
+            <p>
+              {" "}
+              Votes:{" "}
+              {article.votes === 1
+                ? article.votes + " like"
+                : article.votes + " likes"}
+            </p>
+            <Button
+              onClick={handleVote}
+              variant="outlined"
+              size="md"
+              color="success"
+              sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
+            >
+              👍
+            </Button>
+          </div>
+        </CardContent>
       </div>
       <CommentSection />
     </>
