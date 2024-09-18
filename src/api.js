@@ -22,4 +22,14 @@ export const getComments = (article_id) => {
   });
 };
 
-export const patchComment = (comment_id) => {};
+export const patchArticle = (article_id) => {
+  const patchArticle = {
+    inc_votes: 1,
+  };
+
+  return ncNews
+    .patch(`/articles/${article_id}`, patchArticle)
+    .then(({ data }) => {
+      return data;
+    });
+};

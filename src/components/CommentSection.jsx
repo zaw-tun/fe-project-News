@@ -39,10 +39,10 @@ export const CommentSection = () => {
     <>
       <h1> Comments Section </h1>
       <CssVarsProvider>
-        <Box sx={{ padding: 2 }}>
-          <Grid container spacing={6}>
+        <Box sx={{ padding: 10 }}>
+          <Grid container spacing={5}>
             {comments.map((comment, index) => (
-              <Grid xs={12} sm={6} md={4} key={index}>
+              <Grid xs={20} sm={6} md={4} key={index}>
                 <CommentCard comment={comment} />
               </Grid>
             ))}
