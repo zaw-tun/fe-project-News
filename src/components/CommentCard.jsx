@@ -10,14 +10,18 @@ export const CommentCard = ({ comment }) => {
     <>
       <Card sx={{ width: 200 }}>
         <div>
-          <Typography level="title-lg">By {comment.author}</Typography>
-        </div>
-
-        <div>
           <Typography level="body-xs">{comment.body}</Typography>
         </div>
+        <div>
+          <Typography level="body-lg">{comment.author}</Typography>
+        </div>
         <CardContent orientation="horizontal">
-          <p> {comment.votes} likes</p>
+          <p>
+            {" "}
+            {comment.votes === 1
+              ? comment.votes + " like"
+              : comment.votes + " likes"}
+          </p>
 
           <Button
             variant="outlined"
@@ -26,17 +30,15 @@ export const CommentCard = ({ comment }) => {
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
           >
             👍
-            {/* <Link to={`/articles/${article.article_id}`}> ❤️ </Link> */}
           </Button>
 
           <Button
             variant="outlined"
             size="md"
-            color="success"
+            color="danger"
             sx={{ ml: "auto", alignSelf: "center", fontWeight: 600 }}
           >
             👎
-            {/* <Link to={`/articles/${article.article_id}`}> ❤️ </Link> */}
           </Button>
         </CardContent>
       </Card>

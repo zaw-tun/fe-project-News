@@ -33,3 +33,21 @@ export const patchArticle = (article_id) => {
       return data;
     });
 };
+
+export const postComment = ({ article_id, username, body }) => {
+  const postCommentData = {
+    username,
+    body,
+  };
+  return ncNews
+    .post(`/articles/${article_id}/comments`, postCommentData)
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const getUsers = () => {
+  return ncNews.get("/users").then(({ data }) => {
+    return data;
+  });
+};
