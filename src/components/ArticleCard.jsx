@@ -22,7 +22,15 @@ export const ArticleCard = ({ article }) => {
         </AspectRatio>
         <CardContent orientation="horizontal">
           <div>
-            <Typography level="body-xs">By {article.author}</Typography>
+            <Typography level="body-xs" color="warning">
+              By {article.author}
+            </Typography>
+            <Typography level="body-xs">
+              Posted on {article.created_at}
+            </Typography>
+            <Typography level="body-xs" color="primary">
+              Votes received: {article.votes}
+            </Typography>
           </div>
           <Button
             variant="outlined"
