@@ -13,7 +13,7 @@ export const BurgerMenu = () => {
         </Link>
       </h2>
 
-      {/* <Link className="menu-item" to="/?topic=cooking">
+      <Link className="menu-item" to="/?topic=cooking">
         Cooking
       </Link>
       <Link className="menu-item" to="/?topic=coding">
@@ -21,7 +21,7 @@ export const BurgerMenu = () => {
       </Link>
       <Link className="menu-item" to="/?topic=football">
         Football
-      </Link> */}
+      </Link>
       <h2>
         {" "}
         <Link idclassName="menu-item" to="/user">
