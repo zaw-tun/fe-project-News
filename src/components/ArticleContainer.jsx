@@ -18,7 +18,7 @@ export const ArticleContainer = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getArticles(topicQuery)
+    getArticles(params)
       .then(({ articles }) => {
         setIsLoading(false);
         setArticles(articles);

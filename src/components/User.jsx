@@ -14,10 +14,11 @@ export const User = () => {
   }, []);
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleLoginClick = (user) => {
     setLoggedInUser(user);
-    useNavigate(-1);
+    navigate(-1);
   };
 
   return (

@@ -14,9 +14,7 @@ export const ArticleCard = ({ article }) => {
         <div>
           <Typography level="title-lg">{article.title}</Typography>
           <Typography level="body-sm">
-            {/* <Link to={`/articles/${article.topic}`}> */}
-            {article.topic}
-            {/* </Link> */}
+            <Link to={`/?topic=${article.topic}`}>{article.topic}</Link>
           </Typography>
         </div>
         <AspectRatio minHeight="120px" maxHeight="200px">
