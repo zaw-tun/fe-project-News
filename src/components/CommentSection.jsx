@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import * as React from "react";
 import { Link, useParams } from "react-router-dom";
-import { getComments, postComment } from "../api";
+import { getComments, postComment, deleteComment } from "../api";
 import { CommentCard } from "./CommentCard";
 import { UserContext } from "../contexts/UserContext";
 
@@ -21,6 +21,7 @@ export const CommentSection = () => {
   const [usernameInput, setUsernameInput] = useState("");
   const [commentInput, setCommentInput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState("");
 
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
 
@@ -37,11 +38,11 @@ export const CommentSection = () => {
       });
   }, [article_id]);
 
-  const handleNameChange = (event) => setUsernameInput(event.target.value);
   const handleCommentChange = (event) => setCommentInput(event.target.value);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(loggedInUser.username);
     const newComment = {
       article_id,
       username: loggedInUser.username,
@@ -60,6 +61,22 @@ export const CommentSection = () => {
       .catch(() => {
         console.log("error posting item, have you signed in?");
         setIsSubmitting(false);
+        return <p> Comment posting failed</p>;
+      });
+  };
+
+  const handleDelete = (commentId) => {
+    const updatedComments = comments.filter(
+      (comment) => comment.comment_id !== commentId
+    );
+    setComments(updatedComments);
+
+    deleteComment(commentId)
+      .then(() => {
+        setDeleteMessage("Comment deleted!");
+      })
+      .catch(() => {
+        setDeleteMessage("Error Deleting comment!");
       });
   };
 
@@ -98,8 +115,6 @@ export const CommentSection = () => {
                 {loggedInUser.username
                   ? `You are posting as ${loggedInUser.name}`
                   : "Please sign in first. Guests can't post comments at the moment."}
-                {/* You are signed in as {loggedInUser.username || "Guest"}. Guests
-                can't post comments at the moment. */}
                 {}
               </p>
               <Button
@@ -114,11 +129,15 @@ export const CommentSection = () => {
             </CardContent>
           )}
         </form>
+        {deleteMessage ? <div>{deleteMessage}</div> : null}
         <Box sx={{ padding: 10 }}>
           <Grid container spacing={5}>
             {comments.map((comment, index) => (
               <Grid xs={20} sm={6} md={4} key={index}>
-                <CommentCard comment={comment} />
+                <CommentCard
+                  comment={comment}
+                  handleDeleteClick={handleDelete}
+                />
               </Grid>
             ))}
           </Grid>

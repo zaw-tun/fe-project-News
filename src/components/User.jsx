@@ -2,7 +2,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useContext, useState, useEffect } from "react";
 import { getUsers } from "../api";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const User = () => {
   const [users, setUsers] = useState([]);
@@ -17,6 +17,7 @@ export const User = () => {
 
   const handleLoginClick = (user) => {
     setLoggedInUser(user);
+    useNavigate(-1);
   };
 
   return (
