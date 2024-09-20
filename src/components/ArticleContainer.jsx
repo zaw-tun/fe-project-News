@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../api";
 import { useSearchParams } from "react-router-dom";
+import "../App.css";
 
 import { ArticleCard } from "./ArticleCard";
 
@@ -14,7 +15,11 @@ export const ArticleContainer = () => {
   const [isErr, setIsErr] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const topicQuery = searchParams.get("topic");
-  const params = { params: { topic: topicQuery } };
+  const sortQuery = searchParams.get("sort_by");
+  const orderQuery = searchParams.get("order");
+  const params = {
+    params: { topic: topicQuery, sort_by: sortQuery, order: orderQuery },
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,7 +32,25 @@ export const ArticleContainer = () => {
         setIsLoading(false);
         setIsErr(true);
       });
-  }, [topicQuery]);
+  }, [topicQuery, sortQuery, orderQuery]);
+
+  const handleSortChange = (event) => {
+    const newSort = event.target.value;
+    setSearchParams((prevParams) => {
+      const newParams = new URLSearchParams(prevParams);
+      newParams.set("sort_by", newSort);
+      return newParams;
+    });
+  };
+
+  const handleOrderChange = (event) => {
+    const newOrder = event.target.value;
+    setSearchParams((prevParams) => {
+      const newParams = new URLSearchParams(prevParams);
+      newParams.set("order", newOrder);
+      return newParams;
+    });
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -38,6 +61,31 @@ export const ArticleContainer = () => {
 
   return (
     <CssVarsProvider>
+      <div className="sorting">
+        <form className="sortingForm">
+          <select
+            value={sortQuery || ""}
+            onChange={(event) => {
+              handleSortChange(event);
+            }}
+          >
+            <option value=""> Sort By </option>
+            <option value="votes">Votes</option>
+            <option value="created_at">Date</option>
+            <option value="comment_count">Comment Count</option>
+          </select>
+          <select
+            value={orderQuery || ""}
+            onChange={(event) => {
+              handleOrderChange(event);
+            }}
+          >
+            <option value=""> Order </option>
+            <option value="ASC">Aescending</option>
+            <option value="DESC">Descending</option>
+          </select>
+        </form>
+      </div>
       <Box sx={{ padding: 2 }}>
         <Grid container spacing={6}>
           {articles.map((article, index) => (

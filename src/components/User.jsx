@@ -4,6 +4,14 @@ import { getUsers } from "../api";
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
 
+import * as React from "react";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Card from "@mui/joy/Card";
+import CardContent from "@mui/joy/CardContent";
+import CardOverflow from "@mui/joy/CardOverflow";
+import Divider from "@mui/joy/Divider";
+import Typography from "@mui/joy/Typography";
+
 export const User = () => {
   const [users, setUsers] = useState([]);
 
@@ -34,14 +42,21 @@ export const User = () => {
                 handleLoginClick(user);
               }}
             >
-              <Link className="menu-item" to="/">
-                <img
-                  className="profile-pic"
-                  src={user.avatar_url}
-                  alt={`log in for ${user.name}`}
-                />
-              </Link>
-              <p>{user.username}</p>
+              <Card variant="outlined" sx={{ width: 500 }}>
+                <CardOverflow>
+                  <AspectRatio ratio="1">
+                    <img
+                      className="profile-pic"
+                      src={user.avatar_url}
+                      alt={`log in for ${user.name}`}
+                    />
+                  </AspectRatio>
+                </CardOverflow>
+                <CardContent>
+                  <Typography level="title-md">{user.username}</Typography>
+                  <Typography level="body-sm">{user.name}</Typography>
+                </CardContent>
+              </Card>
             </li>
           );
         })}

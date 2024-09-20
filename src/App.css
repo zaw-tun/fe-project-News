@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+.sorting {
+  text-align: right;
+}
+
 .card {
   padding: 2em;
 }
