@@ -51,3 +51,10 @@ export const getUsers = () => {
     return data;
   });
 };
+
+export const deleteComment = (comment_id) => {
+  console.log(comment_id);
+  return ncNews.delete(`/comments/${comment_id}`).then(({ data }) => {
+    return data;
+  });
+};
